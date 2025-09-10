@@ -1,3 +1,4 @@
+use store;
 create table profiles
 (
     id             bigint auto_increment
