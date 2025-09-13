@@ -1,11 +1,14 @@
 package com.samuelaptech.newstore.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 @Entity
 @Table(name = "profiles")
 @Getter
@@ -27,6 +30,11 @@ public class Profiles {
     @Column(name = "loyalty_points")
     private int loyalty_points;
 
+    @OneToOne
+    @JoinColumn(name = "id")
+    @MapsId
+    @ToString.Exclude
+    private User profileUser;
 
 
 }
