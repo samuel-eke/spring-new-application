@@ -1,10 +1,7 @@
 package com.samuelaptech.newstore.entities;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -16,6 +13,8 @@ import java.util.Set;
 @Setter
 @Getter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "users")
 public class User {
     @Id
@@ -33,7 +32,7 @@ public class User {
     private String password;
 
 // defining relationships between tables
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     @Builder.Default
     private List<Addresses> addresses = new ArrayList<>();
 
@@ -65,4 +64,11 @@ public class User {
     @OneToOne(mappedBy = "profileUser")
     private Profiles userProfiles;
 
+    @ManyToMany
+    @JoinTable(
+            name = "wishlist",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "produt_id")
+    )
+    private Set<Product> wishList = new HashSet<>();
 }
