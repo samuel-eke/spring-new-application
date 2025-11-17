@@ -16,8 +16,9 @@ public class NewstoreApplication {
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(NewstoreApplication.class, args);
         var service = context.getBean(UserService.class);
-        service.fetchAddress();
-        service.persistRelated();
+//        service.fetchAddress();
+//        service.persistRelated();
+        service.manageProdcuts();
     }
 
 }
