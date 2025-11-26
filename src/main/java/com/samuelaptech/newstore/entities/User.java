@@ -31,6 +31,15 @@ public class User {
     @Column(name = "password")
     private String password;
 
+//    @Column(name = "gender", length = 10)
+//    private String gender;
+//
+//    @Column(name = "phoneNumber", length = 15)
+//    private String phoneNumber;
+//
+//    @Column(name = "nationality")
+//    private String nationality;
+
 // defining relationships between tables
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     @Builder.Default
@@ -45,8 +54,6 @@ public class User {
         addresses.remove(address);
         address.setUser(null);
     }
-
-
 
     @OneToOne(mappedBy = "profileUser", cascade = CascadeType.REMOVE)
     private Profiles userProfiles;

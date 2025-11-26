@@ -5,20 +5,28 @@ import com.samuelaptech.newstore.entities.User;
 import com.samuelaptech.newstore.mappers.UserMapping;
 import com.samuelaptech.newstore.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
+
 @RestController
 @AllArgsConstructor
+@RequestMapping("/users")
 public class UserController {
 
     private final UserRepository userRepository;
     private final UserMapping userMapping;
     
 
-    @GetMapping("/users")
-    public Iterable<UserDTO> getUsers() {
-        return userRepository.findAll()
+    @GetMapping()
+    public Iterable<UserDTO> getUsers(@RequestParam(required = false, defaultValue = "") String sortUser) {
+
+        if (!Set.of("name", "email" ).contains(sortUser)) {
+            sortUser = "name";
+        }
+        return userRepository.findAll(Sort.by(sortUser))
                 .stream()
                 .map(userMapping::userToUserDTO)
                 .toList();
@@ -27,7 +35,7 @@ public class UserController {
 //                .toList();   // this is the manual method of mapping objects
     }
 
-    @GetMapping("/users/{uid}")
+    @GetMapping("/{uid}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable long uid) {
             var user = userRepository.findById(uid).orElse(null);
 

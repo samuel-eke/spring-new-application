@@ -18,7 +18,7 @@ CREATE TABLE categories
 
 CREATE TABLE products
 (
-    id            BIGINT       NOT NULL,
+    id            BIGINT    AUTO_INCREMENT   NOT NULL,
     name          VARCHAR(255) NULL,
     `description` TEXT         NOT NULL,
     price         DECIMAL      NULL,

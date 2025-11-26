@@ -58,3 +58,11 @@ private User user;
 - the @Jsonproperty is used to provide an alias for a field. simply, place it on top of the field you want to rename and supply property="alias"; as the argument for it and the response will rename that field with the new field name
 - @JsonInclude(JsonInclude.Include.NON_NULL)  this allows us to remove null fields from the return response
 
+### Core Differences: @PathVariable vs. @RequestParam
+
+- Feature: @PathVariable (Path Variable) 🛣️,@RequestParam (Query Parameter) ❓
+-  Data Location: Extracted from the URI path segment.,Extracted from the query string (after the ?). 
+- URL Example: ,/api/users/**101**/details,/api/users?**id=101**
+- Primary Purpose:"Resource Identification (e.g., retrieving a specific user).","Filtering, Sorting, or Pagination (e.g., setting a page size)."
+- REST Semantics: Defines the resource structure (Required).,Provides additional criteria for the resource (Often Optional). 
+- Syntax in Mapping: "Must be included in the path: @GetMapping(""/users/{id}"")","Not visible in the path mapping: @GetMapping(""/users"")"

@@ -1,23 +1,22 @@
 package com.samuelaptech.newstore.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-@AllArgsConstructor
+import java.math.BigDecimal;
+
 @Getter
 @Setter
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserDTO {
-    @JsonProperty("user_id")
+@AllArgsConstructor
+//@JsonInclude(JsonInclude.Include.NON_NULL)
+public class ProductDTO {
     private Long id;
-    @JsonProperty("patient_name")
+    @JsonProperty("product_name")
     private String name;
-    @JsonProperty("company_email")
-    private String email;
-
-
+    private String description;
+    private BigDecimal price;
+    private Byte categoryId;
 }
