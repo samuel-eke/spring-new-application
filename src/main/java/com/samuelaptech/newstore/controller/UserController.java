@@ -1,13 +1,14 @@
 package com.samuelaptech.newstore.controller;
 
+import com.samuelaptech.newstore.dto.RegisterUserRequestDTO;
 import com.samuelaptech.newstore.dto.UserDTO;
-import com.samuelaptech.newstore.entities.User;
 import com.samuelaptech.newstore.mappers.UserMapping;
 import com.samuelaptech.newstore.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Set;
 
@@ -45,6 +46,17 @@ public class UserController {
 //            return ResponseEntity.ok(user);
         return ResponseEntity.ok(userMapping.userToUserDTO(user));
 
+    }
+
+    @PostMapping
+    public ResponseEntity<UserDTO> createUser(@RequestBody RegisterUserRequestDTO registerUserRequest,
+                                              UriComponentsBuilder theUriBuilder
+                                              ) {
+        var userRequest = userMapping.toEntity(registerUserRequest);
+        userRepository.save(userRequest);
+        var userDTO = userMapping.userToUserDTO(userRequest);
+        var uri = theUriBuilder.path("/users/{uid}").buildAndExpand(userDTO.getId()).toUri();
+        return ResponseEntity.created(uri).body(userDTO);
     }
 
 }

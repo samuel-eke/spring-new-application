@@ -8,7 +8,7 @@ import org.springframework.context.ApplicationContext;
 public class NewstoreApplication {
 
     public static void main(String[] args) {
-        ApplicationContext context = SpringApplication.run(NewstoreApplication.class, args);
+        SpringApplication.run(NewstoreApplication.class, args);
 
     }
 
