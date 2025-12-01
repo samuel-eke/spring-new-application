@@ -1,5 +1,6 @@
 package com.samuelaptech.newstore.controller;
 
+import com.samuelaptech.newstore.dto.ChangePasswordRequestDTO;
 import com.samuelaptech.newstore.dto.RegisterUserRequestDTO;
 import com.samuelaptech.newstore.dto.UpdateUserDTO;
 import com.samuelaptech.newstore.dto.UserDTO;
@@ -7,6 +8,7 @@ import com.samuelaptech.newstore.mappers.UserMapping;
 import com.samuelaptech.newstore.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -84,4 +86,17 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/{uid}/change-password")
+    public ResponseEntity<Void> changeUserPassword(@PathVariable long uid, @RequestBody ChangePasswordRequestDTO changePasswordRequestDTO) {
+        var user = userRepository.findById(uid).orElse(null);
+        if (user == null) {
+            return  ResponseEntity.notFound().build();
+        }
+        if(!user.getPassword().equals(changePasswordRequestDTO.getOldPassword())) {
+            return  new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        user.setPassword(changePasswordRequestDTO.getNewPassword());
+        userRepository.save(user);
+        return ResponseEntity.noContent().build();
+    }
 }
