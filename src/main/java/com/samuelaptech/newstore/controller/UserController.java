@@ -1,6 +1,7 @@
 package com.samuelaptech.newstore.controller;
 
 import com.samuelaptech.newstore.dto.RegisterUserRequestDTO;
+import com.samuelaptech.newstore.dto.UpdateUserDTO;
 import com.samuelaptech.newstore.dto.UserDTO;
 import com.samuelaptech.newstore.mappers.UserMapping;
 import com.samuelaptech.newstore.repository.UserRepository;
@@ -57,6 +58,30 @@ public class UserController {
         var userDTO = userMapping.userToUserDTO(userRequest);
         var uri = theUriBuilder.path("/users/{uid}").buildAndExpand(userDTO.getId()).toUri();
         return ResponseEntity.created(uri).body(userDTO);
+    }
+
+    @PutMapping("/{uid}")
+    public ResponseEntity<UserDTO> updateUser(@RequestBody UpdateUserDTO requestUpdate,
+                                              @PathVariable long uid) {
+       var aUser = userRepository.findById(uid).orElse(null);
+        if (aUser == null) {
+            return  ResponseEntity.notFound().build();
+        } else {
+            userMapping.updateUser(requestUpdate, aUser);
+            userRepository.save(aUser);
+            return ResponseEntity.ok(userMapping.userToUserDTO(aUser));
+        }
+    }
+
+    @DeleteMapping("/{uid}")
+    public ResponseEntity<Void> deleteUser(@PathVariable long uid) {
+        var user = userRepository.findById(uid).orElse(null);
+        if (user == null) {
+            return  ResponseEntity.notFound().build();
+        }
+
+        userRepository.delete(user);
+        return ResponseEntity.noContent().build();
     }
 
 }

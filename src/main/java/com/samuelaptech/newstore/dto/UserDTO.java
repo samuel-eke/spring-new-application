@@ -13,8 +13,8 @@ import lombok.Setter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDTO {
     private Long id;
-    @JsonProperty("personal_email")
     private String name;
+    @JsonProperty("personal_email")
     private String email;
 
 
