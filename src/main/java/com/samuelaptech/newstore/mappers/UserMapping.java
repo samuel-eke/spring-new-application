@@ -1,0 +1,15 @@
+package com.samuelaptech.newstore.mappers;
+
+import com.samuelaptech.newstore.dto.RegisterUserRequestDTO;
+import com.samuelaptech.newstore.dto.UpdateUserDTO;
+import com.samuelaptech.newstore.dto.UserDTO;
+import com.samuelaptech.newstore.entities.User;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+
+@Mapper(componentModel = "spring")
+public interface UserMapping {
+    UserDTO userToUserDTO(User user);
+    User toEntity(RegisterUserRequestDTO registerUserRequest);
+    void updateUser(UpdateUserDTO updateUserDTO, @MappingTarget User user);
+}

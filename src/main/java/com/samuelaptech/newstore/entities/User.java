@@ -31,6 +31,15 @@ public class User {
     @Column(name = "password")
     private String password;
 
+//    @Column(name = "gender", length = 10)
+//    private String gender;
+//
+//    @Column(name = "phoneNumber", length = 15)
+//    private String phoneNumber;
+//
+//    @Column(name = "nationality")
+//    private String nationality;
+
 // defining relationships between tables
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     @Builder.Default
@@ -46,22 +55,7 @@ public class User {
         address.setUser(null);
     }
 
-    public void addTag(String tagName){
-        var tag = new Tags(tagName);
-        tags.add(tag);
-        tag.getUsers().add(this);
-    }
-
-    @ManyToMany
-    @JoinTable(
-            name = "user_tags",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id")
-    )
-    @Builder.Default
-    private Set<Tags> tags = new HashSet<>();
-
-    @OneToOne(mappedBy = "profileUser")
+    @OneToOne(mappedBy = "profileUser", cascade = CascadeType.REMOVE)
     private Profiles userProfiles;
 
     @ManyToMany
@@ -71,4 +65,17 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "produt_id")
     )
     private Set<Product> wishList = new HashSet<>();
+
+    public void addWishlist(Product product){
+        wishList.add(product);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", id=" + id +
+                '}';
+    }
 }
